@@ -1,5 +1,7 @@
 import random
 import nltk
+import pickle
+import os
 
 def to_corpus(raw):
     tokens = nltk.word_tokenize(raw)
