@@ -49,20 +49,23 @@ def load_character_filenames():
         return f.read().strip().split(',')
 
 def generate_book():
+    book = ''
     char_files = load_character_filenames()
     char_files = random.sample(char_files, 5)
     char = 'prologue'
     for i in range(10):
         cfd = models.load_CFD('{}'.format(char))
-        print('\t' + char.upper() + '\n')
-        models.generate_paragraph(cfd)
-        print('\n\n')
+        book += ('\t' + char.upper() + '\n')
+        book += models.generate_paragraph(cfd)
+        book += ('\n\n')
         prev_char = char
         char = char_files[random.randint(0, len(char_files))-1]
         while char in ['prologue', prev_char, 'epilogue']:
             char = char_files[random.randint(0, len(char_files))-1]
     if random.randint(0,2) == 1:
         cfd = models.load_CFD('epilogue')
-        print('\t' + char.upper() + '\n')
-        models.generate_paragraph(cfd)
-        print('\n\n')
+        book += ('\t' + char.upper() + '\n')
+        book += models.generate_paragraph(cfd)
+        book += ('\n\n')
+    return book
+
