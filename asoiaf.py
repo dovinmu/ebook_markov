@@ -1,6 +1,8 @@
 
-from epub_handler import get_soups_from_ebook
+from ebook_handler import get_soups_from_ebook
 import os
+import random
+import models
 
 def generate_word_probability_by_character(bookname, title_tag, attrs=None):
     os.chdir('books')
@@ -37,3 +39,30 @@ def generate_word_probability_by_character(bookname, title_tag, attrs=None):
                 f.write(chapter.strip() + '\n\n')
     #need to update 0_index
     return char_dict.keys()
+
+
+def load_character_filenames():
+    #return [fname for fname in os.listdir('characters')]
+    if not '0_index' in os.listdir():
+        os.chdir('characters')
+    with open('0_index') as f:
+        return f.read().strip().split(',')
+
+def generate_book():
+    char_files = load_character_filenames()
+    char_files = random.sample(char_files, 5)
+    char = 'prologue'
+    for i in range(10):
+        cfd = models.load_CFD('{}'.format(char))
+        print('\t' + char.upper() + '\n')
+        models.generate_paragraph(cfd)
+        print('\n\n')
+        prev_char = char
+        char = char_files[random.randint(0, len(char_files))-1]
+        while char in ['prologue', prev_char, 'epilogue']:
+            char = char_files[random.randint(0, len(char_files))-1]
+    if random.randint(0,2) == 1:
+        cfd = models.load_CFD('epilogue')
+        print('\t' + char.upper() + '\n')
+        models.generate_paragraph(cfd)
+        print('\n\n')

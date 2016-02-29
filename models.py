@@ -67,29 +67,3 @@ def generate_paragraph(cfdist):
     for i in range(random.randint(2,5)):
         s += (generate_sentence(cfdist))
     print(s)
-
-def load_character_filenames():
-    #return [fname for fname in os.listdir('characters')]
-    if not '0_index' in os.listdir():
-        os.chdir('characters')
-    with open('0_index') as f:
-        return f.read().strip().split(',')
-
-def generate_book():
-    char_files = load_character_filenames()
-    char_files = random.sample(char_files, 5)
-    char = 'prologue'
-    for i in range(10):
-        cfd = load_CFD('{}'.format(char))
-        print('\t' + char.upper() + '\n')
-        generate_paragraph(cfd)
-        print('\n\n')
-        prev_char = char
-        char = char_files[random.randint(0, len(char_files))-1]
-        while char in ['prologue', prev_char, 'epilogue']:
-            char = char_files[random.randint(0, len(char_files))-1]
-    if random.randint(0,2) == 1:
-        cfd = load_CFD('epilogue')
-        print('\t' + char.upper() + '\n')
-        generate_paragraph(cfd)
-        print('\n\n')
