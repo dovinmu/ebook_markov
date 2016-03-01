@@ -69,3 +69,30 @@ def generate_book():
         book += ('\n\n')
     return book
 
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) > 1:
+        arg = sys.argv[1]
+        if arg == 'characters' or arg == '-c':
+            charlist = [fname.split('_')[0] for fname in os.listdir('characters') if 'cfd.pkl' in fname]
+            print('\n'.join(charlist))
+        elif arg == 'book' or arg == '-b':
+            print(generate_book())
+        else:
+            try:
+                cfd = models.load_CFD(arg)
+                print('\n\t{0}\n{1}\n'.format(arg.upper(),models.generate_paragraph(cfd)))
+            except:
+                print('Could not find character "{}"'.format(arg))
+    else:
+        print(
+        '''
+        Usage:
+            asoiaf.py characters: Print all the characters which can be
+                                  generated.
+            asoiaf.py book: Generate a "book", a series of short chapters
+                            using various characters.
+            asoiaf.py <char>: Generate a paragraph of text of the given
+                              character.
+        '''
+        )

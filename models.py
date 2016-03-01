@@ -13,6 +13,8 @@ def to_conditional_frequency_dist(text):
 
 def load_CFD(fname):
     '''Load the precomputed conditional frequency distribution, or compute from the raw text of the given filename.'''
+    if os.getcwd() != 'characters':
+        os.chdir('characters')
     try:
         with open(fname + '_cfd.pkl', 'rb') as inp:
             cfd = pickle.load(inp)
@@ -66,4 +68,4 @@ def generate_paragraph(cfdist):
     s = '   '
     for i in range(random.randint(2,5)):
         s += (generate_sentence(cfdist))
-    print(s)
+    return s
