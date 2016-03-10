@@ -75,10 +75,12 @@ if __name__ == '__main__':
         arg = sys.argv[1]
         if arg == 'characters' or arg == '-c':
             charlist = [fname.split('_')[0] for fname in os.listdir('characters') if 'cfd.pkl' in fname]
+            charlist = [char.replace(' ','_') for char in charlist]
             print('\n'.join(charlist))
         elif arg == 'book' or arg == '-b':
             print(generate_book())
         else:
+            arg = arg.replace('_',' ')
             try:
                 cfd = models.load_CFD(arg)
                 print('\n\t{0}\n{1}\n'.format(arg.upper(),models.generate_paragraph(cfd)))
